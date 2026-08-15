@@ -2,44 +2,47 @@ package implementacaoarvores;
 
 public class NoArvore {
     private int valorNo;
-    private int filhoD;
-    private int filhoE;
-
-    // Metodo construtor vazio.
-    public NoArvore() {
-        this.valorNo = 0;
-        this.filhoD = 0;
-        this.filhoE = 0;
-    }
+    private NoArvore pai;
+    private NoArvore filhoD;
+    private NoArvore filhoE;
     
     // Metodo construtor com parametros.
-    public NoArvore(int No, int FilhoD, int FilhoE) {
+    public NoArvore(int No, NoArvore pai, NoArvore FilhoD, NoArvore FilhoE) {
         this.valorNo = No;
+        this.pai = pai;
         this.filhoD = FilhoD;
         this.filhoE = FilhoE;
     }
 
     public int getvalorNo() {
-        return valorNo;
+        return this.valorNo;
     }
 
     public void setvalorNo(int No) {
         this.valorNo = No;
     }
 
-    public int getfilhoD() {
-        return filhoD;
+    public NoArvore getPai() {
+        return pai;
     }
 
-    public void setfilhoD(int FilhoD) {
+    public void setPai(NoArvore pai) {
+        this.pai = pai;
+    }
+
+    public NoArvore getfilhoD() {
+        return this.filhoD;
+    }
+
+    public void setfilhoD(NoArvore FilhoD) {
         this.filhoD = FilhoD;
     }
 
-    public int getfilhoE() {
-        return filhoE;
+    public NoArvore getfilhoE() {
+        return this.filhoE;
     }
 
-    public void setfilhoE(int FilhoE) {
+    public void setfilhoE(NoArvore FilhoE) {
         this.filhoE = FilhoE;
-    }   
+    }
 }
