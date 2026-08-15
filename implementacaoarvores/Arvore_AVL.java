@@ -1,13 +1,95 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package implementacaoarvores;
 
-/**
- *
- * @author anaca
- */
 public class Arvore_AVL {
-    
+    private NoArvore raiz;
+
+    public Arvore_AVL() {
+        this.raiz = null;
+    }
+
+      public void inserirElemento(int elemento) {
+        if (this.raiz == null) {
+            raiz = new NoArvore(elemento, null, null, null);
+        }
+        else if (this.raiz.getvalorNo() == elemento) {
+            return; //ignora elemento igual
+        }
+        else {
+            boolean loop = true;
+            boolean insert_left = false;
+            NoArvore apontador = null;
+
+            if (elemento < raiz.getvalorNo()) {
+                if (raiz.getfilhoE() != null) {
+                    apontador = raiz.getfilhoE();
+                }
+                else {
+                    apontador = raiz;
+                    insert_left = true;
+                    loop = false;
+                }
+            }
+            else {
+                if (raiz.getfilhoD() != null) {
+                    apontador = raiz.getfilhoD();
+                }
+                else {
+                    apontador = raiz;
+                    loop = false;
+                }
+            }
+
+            while (loop) {
+                if (elemento == apontador.getvalorNo()) {
+                    return; // ignora elemento igual
+                }
+
+                if (elemento < apontador.getvalorNo()) {
+                    if (apontador.getfilhoE() != null) {
+                        apontador = apontador.getfilhoE();
+                    }
+                    else {
+                        insert_left = true;
+                        break;
+                    }
+                }
+                else {
+                    if (apontador.getfilhoD() != null) {
+                        apontador = apontador.getfilhoD();
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+
+            NoArvore novo = new NoArvore(elemento, apontador, null, null);
+
+            if (insert_left) {
+                apontador.setfilhoE(novo);
+            }
+            else {
+                apontador.setfilhoD(novo);
+            }
+        }
+    }
+
+    public boolean buscarElemento(int elemento) {
+        NoArvore apontador = this.raiz;
+
+        while (apontador != null) {
+            if (elemento == apontador.getvalorNo()) {
+                return true; //achou
+            }
+            else if (elemento < apontador.getvalorNo()) {
+                apontador = apontador.getfilhoE();
+            }
+            else {
+                apontador = apontador.getfilhoD();
+            }
+        }
+
+        return false; //nn achou 
+    }
 }

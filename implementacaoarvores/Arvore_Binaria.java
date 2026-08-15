@@ -69,8 +69,22 @@ public class Arvore_Binaria {
         }
     }
     
-    public void buscarElemento(int Elemento){
-        
+    public boolean buscarElemento(int elemento){
+    NoArvore apontador = this.raiz;
+
+    while (apontador != null){
+        if (elemento == apontador.getvalorNo()){
+            return true; //achou
+        }
+        else if (elemento < apontador.getvalorNo()){
+            apontador = apontador.getfilhoE(); //vai pra esquerda
+        }
+        else{
+            apontador = apontador.getfilhoD(); //vai pra direita
+        }
     }
+
+    return false; //nn achou
+}
 }
 
