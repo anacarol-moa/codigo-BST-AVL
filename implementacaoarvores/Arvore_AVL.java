@@ -1,11 +1,12 @@
-
 package implementacaoarvores;
 
 public class Arvore_AVL {
     private NoArvore raiz;
+    private int comparacoes;
 
     public Arvore_AVL() {
         this.raiz = null;
+        this.comparacoes = 0;
     }
 
       public void inserirElemento(int elemento) {
@@ -75,12 +76,14 @@ public class Arvore_AVL {
         }
     }
 
-    public boolean buscarElemento(int elemento) {
+    public int buscarElemento(int elemento) {
         NoArvore apontador = this.raiz;
+        comparacoes = 0;
 
         while (apontador != null) {
+            comparacoes++;
             if (elemento == apontador.getvalorNo()) {
-                return true; //achou
+                return comparacoes; //achou
             }
             else if (elemento < apontador.getvalorNo()) {
                 apontador = apontador.getfilhoE();
@@ -90,6 +93,10 @@ public class Arvore_AVL {
             }
         }
 
-        return false; //nn achou 
+        return comparacoes; //nn achou
+    }
+
+    public int getComparacoes() {
+        return comparacoes;
     }
 }

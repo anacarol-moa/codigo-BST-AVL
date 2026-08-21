@@ -2,9 +2,11 @@ package implementacaoarvores;
 
 public class Arvore_Binaria {
     private NoArvore raiz;
+    private int comparacoes;
 
     public Arvore_Binaria() {
         this.raiz = null;
+        this.comparacoes = 0;
     }
     
     public void inserirElemento(int elemento){
@@ -69,22 +71,29 @@ public class Arvore_Binaria {
         }
     }
     
-    public boolean buscarElemento(int elemento){
-    NoArvore apontador = this.raiz;
+    public int buscarElemento(int elemento){
+        NoArvore apontador = this.raiz;
+        comparacoes = 0;
 
-    while (apontador != null){
-        if (elemento == apontador.getvalorNo()){
-            return true; //achou
+        while (apontador != null){
+            comparacoes++; // so pega a comparaçao com o no
+            if (elemento == apontador.getvalorNo()){
+                return comparacoes; //achou
+            }
+            else if (elemento < apontador.getvalorNo()){
+                apontador = apontador.getfilhoE(); //vai pra esquerda
+            }
+            else{
+                apontador = apontador.getfilhoD(); //vai pra direita
+            }
         }
-        else if (elemento < apontador.getvalorNo()){
-            apontador = apontador.getfilhoE(); //vai pra esquerda
-        }
-        else{
-            apontador = apontador.getfilhoD(); //vai pra direita
-        }
+
+        return comparacoes; //nn achou
     }
 
-    return false; //nn achou
-}
+    public int getComparacoes() {
+        return comparacoes;
+    }
+
 }
 
