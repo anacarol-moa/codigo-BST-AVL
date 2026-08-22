@@ -8,19 +8,6 @@ import java.util.Random;
 public class ImplementacaoArvores {
 
     public static void main(String[] args) {
-        Arvore_AVL a = new Arvore_AVL();
-        a.inserirElemento(10);
-        a.inserirElemento(6);
-        a.inserirElemento(16);
-        a.inserirElemento(12);
-        a.inserirElemento(38);
-        a.inserirElemento(3);
-        a.inserirElemento(8);
-        a.inserirElemento(2);
-        a.inserirElemento(4);
-        a.inserirElemento(5);
-
-
         System.out.println("ARVORE BINARIA DE PESQUISA SEM BALANCEAMENTO");
         System.out.println("   ELEMENTOS ORDENADOS");
 

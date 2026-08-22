@@ -70,6 +70,32 @@ public class Arvore_AVL {
                 apontador.setfilhoD(f);
             }
             this.balanceamento = calcBalanceamento(this.raiz); // calcula o balancemento da arvore toda
+            if (this.balanceamento < -1 || this.balanceamento > 1){ //se tiver desbalanceada, subir a partir do no inserido procurando o no desbalanceado
+                while (apontador != null){
+                    int balanc = calcBalanceamento(apontador);
+                    if (balanc < -1){ //rotacao pra esquerda
+                        if (calcBalanceamento(apontador.getfilhoD()) <= 0){ // no na estrita direita, rotacao esquerda simples
+                            RES(apontador);
+                        }
+                        else{ //rotacao esquerda dupla
+                            RDS(apontador.getfilhoD());
+                            RES(apontador);
+                        }
+                        break; //arvore balanceada
+                    }
+                    else if(balanc > 1){ //rotacao pra direita
+                        if (calcBalanceamento(apontador.getfilhoE()) >= 0){ //no na estrita esquerda, rotacao direita simples
+                            RDS(apontador);
+                        }
+                        else{ //rotacao direita dupla
+                            RES(apontador.getfilhoE());
+                            RDS(apontador);
+                        }
+                        break;
+                    }
+                    apontador = apontador.getPai();
+                }
+            }
         }
     }
 
@@ -126,7 +152,7 @@ public class Arvore_AVL {
         if (apontador.getfilhoD() != null){
             d = BalanceamentoRecursivo(apontador.getfilhoD());
         }
-        if (e > d){ //tem que retornar o valor do maior dos lados
+        if (e > d){ //tem que retornar o valor do maior dos lados +1 pra contar com o no atual
             return e+1;
         }
         else{
@@ -134,18 +160,49 @@ public class Arvore_AVL {
         }
     }
 
-    private void RES(NoArvore apontador){ //quando o no inserido ta mais a direita possivel da arvore
+    private void RES(NoArvore apontador){
+        NoArvore A = apontador.getfilhoD(); // Filho direito de apontador
+        NoArvore B = A.getfilhoE(); // Filho esquerdo de A
+        NoArvore P = apontador.getPai(); // Pai do apontador
+
+        apontador.setfilhoD(B); //filho esquerdo de A vira filho direito do apontador
+        if (B != null) {
+            B.setPai(apontador);
+        }
+        A.setfilhoE(apontador); //apontador vira filho esquerdo de A
+        apontador.setPai(A);
+        A.setPai(P); //atualiza o pai de A como P
+        if (P != null) {
+            if (P.getfilhoE() == apontador) {
+                P.setfilhoE(A);
+            } else {
+                P.setfilhoD(A);
+            }
+        } else { //caso apontador seja a raiz no inicio, atualiza a raiz
+            this.raiz = A;
+        }
     }
 
-    private void RDS(NoArvore apontador){ //quando o no inserido ta mais a esquerda possivel da arvore
+    private void RDS(NoArvore apontador){
+        NoArvore A = apontador.getfilhoE(); // Filho esquerdo de apontador
+        NoArvore B = A.getfilhoD(); // Filho direito de A
+        NoArvore P = apontador.getPai(); // Pai do apontador
 
-    }
-
-    private void RED(NoArvore apontador){
-
-    }
-
-    private void RDD(NoArvore apontador){
-
+        apontador.setfilhoE(B); //filho esquerdo de A vira filho direito do apontador
+        if (B != null) {
+            B.setPai(apontador);
+        }
+        A.setfilhoD(apontador); //apontador vira filho esquerdo de A
+        apontador.setPai(A);
+        A.setPai(P); //atualiza o pai de A como P
+        if (P != null) {
+            if (P.getfilhoE() == apontador) {
+                P.setfilhoE(A);
+            } else {
+                P.setfilhoD(A);
+            }
+        } else { //caso apontador seja a raiz no inicio, atualiza a raiz
+            this.raiz = A;
+        }
     }
 }
