@@ -10,7 +10,7 @@ public class Arvore_AVL {
         this.comparacoes = 0;
     }
 
-      public void inserirElemento(int elemento) {
+    public void inserirElemento(int elemento) {
         if (this.raiz == null) {
             raiz = new NoArvore(elemento, null, null, null);
         }
@@ -101,9 +101,10 @@ public class Arvore_AVL {
         return comparacoes;
     }
 
-    public void calcBalanceamento(NoArvore apontador) {
+    private void calcBalanceamento(NoArvore apontador) {
        int balancLado1 = 1;
        int balancLado2 = 1;
+       NoArvore apontador_bkp = apontador; //pra nao perder o nó inserido
        while (apontador.getPai() != raiz){
            apontador = apontador.getPai();
            balancLado1++;
@@ -139,5 +140,21 @@ public class Arvore_AVL {
         else{
             return d;
         }
+    }
+
+    private void RES(){ //quando o no inserido ta mais a direita possivel da arvore
+
+    }
+
+    private void RDS(){ //quando o no inserido ta mais a esquerda possivel da arvore
+
+    }
+
+    private void RED(){
+
+    }
+
+    private void RDD(){
+
     }
 }
