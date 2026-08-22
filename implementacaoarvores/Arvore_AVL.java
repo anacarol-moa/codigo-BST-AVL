@@ -3,6 +3,7 @@ package implementacaoarvores;
 public class Arvore_AVL {
     private NoArvore raiz;
     private int comparacoes;
+    private int balanceamento;
 
     public Arvore_AVL() {
         this.raiz = null;
@@ -17,61 +18,61 @@ public class Arvore_AVL {
             return; //ignora elemento igual
         }
         else {
-            boolean loop = true;
-            boolean insert_left = false;
-            NoArvore apontador = null;
-
-            if (elemento < raiz.getvalorNo()) {
-                if (raiz.getfilhoE() != null) {
+            boolean loop = true; //controla se entra no loop ou nao
+            boolean insert_left = false; //controla se insere na direita ou esquerda
+            NoArvore apontador = null; //ponteiro pra descer a arvore
+            if (elemento < raiz.getvalorNo()){
+                if (raiz.getfilhoE() != null){
                     apontador = raiz.getfilhoE();
                 }
-                else {
+                else{ //caso raiz nao tenha filhos
                     apontador = raiz;
                     insert_left = true;
                     loop = false;
                 }
             }
-            else {
-                if (raiz.getfilhoD() != null) {
+            else if (elemento > raiz.getvalorNo()){
+                if (raiz.getfilhoD() != null){
                     apontador = raiz.getfilhoD();
                 }
-                else {
+                else{ //caso raiz nao tenha filhos
                     apontador = raiz;
                     loop = false;
                 }
             }
-
-            while (loop) {
-                if (elemento == apontador.getvalorNo()) {
-                    return; // ignora elemento igual
+            while(loop){//desce a arvore procurando o lugar para inserir
+                if (elemento == apontador.getvalorNo()){ //ignora elemento igual
+                    return;
                 }
-
-                if (elemento < apontador.getvalorNo()) {
-                    if (apontador.getfilhoE() != null) {
+                if (elemento < apontador.getvalorNo()){
+                    if (apontador.getfilhoE() != null){
                         apontador = apontador.getfilhoE();
                     }
-                    else {
+                    else{ //filho null, achou o lugar de inserir
                         insert_left = true;
                         break;
                     }
                 }
-                else {
+                else if (elemento > apontador.getvalorNo()){
                     if (apontador.getfilhoD() != null) {
                         apontador = apontador.getfilhoD();
                     }
-                    else {
+                    else{ //filho null, achou o lugar de inserir
                         break;
                     }
                 }
             }
-
-            NoArvore novo = new NoArvore(elemento, apontador, null, null);
-
-            if (insert_left) {
-                apontador.setfilhoE(novo);
+            NoArvore f = new NoArvore(elemento, apontador, null, null); //cria o elemento para inserir
+            if (insert_left){
+                apontador.setfilhoE(f);
+                calcBalanceamento(f);
             }
-            else {
-                apontador.setfilhoD(novo);
+            else{
+                apontador.setfilhoD(f);
+                calcBalanceamento(f);
+            }
+            if (balanceamento < -1 || balanceamento > 1){
+                //tem que balancear
             }
         }
     }
@@ -98,5 +99,45 @@ public class Arvore_AVL {
 
     public int getComparacoes() {
         return comparacoes;
+    }
+
+    public void calcBalanceamento(NoArvore apontador) {
+       int balancLado1 = 1;
+       int balancLado2 = 1;
+       while (apontador.getPai() != raiz){
+           apontador = apontador.getPai();
+           balancLado1++;
+       }
+       if (raiz.getfilhoE() == apontador){ //calcular lado direito e fazer a diferença
+           apontador = raiz.getfilhoD();
+       }
+       else{ //calcular do lado esquerdo e fazer a diferença
+           apontador = raiz.getfilhoE();
+       }
+       if (apontador != null){
+           balancLado2 += BalanceamentoRecursivo(apontador);
+       }
+       else{
+           balancLado2 = 0;
+       }
+       this.balanceamento = balancLado1-balancLado2;
+    }
+    private int BalanceamentoRecursivo(NoArvore apontador){
+        if (apontador.getfilhoD() == null && apontador.getfilhoE() == null){ //no folha
+            return 1;
+        }
+        int e = 0, d = 0;
+        if (apontador.getfilhoE() != null) {
+            e = BalanceamentoRecursivo(apontador.getfilhoE());
+        }
+        if (apontador.getfilhoD() != null){
+            d = BalanceamentoRecursivo(apontador.getfilhoD());
+        }
+        if (e > d){ //tem que retornar o valor do maior dos lados
+            return e;
+        }
+        else{
+            return d;
+        }
     }
 }
