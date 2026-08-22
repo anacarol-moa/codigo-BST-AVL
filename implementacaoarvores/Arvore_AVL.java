@@ -65,15 +65,11 @@ public class Arvore_AVL {
             NoArvore f = new NoArvore(elemento, apontador, null, null); //cria o elemento para inserir
             if (insert_left){
                 apontador.setfilhoE(f);
-                calcBalanceamento(f);
             }
             else{
                 apontador.setfilhoD(f);
-                calcBalanceamento(f);
             }
-            if (balanceamento < -1 || balanceamento > 1){
-                //tem que balancear
-            }
+            this.balanceamento = calcBalanceamento(this.raiz); // calcula o balancemento da arvore toda
         }
     }
 
@@ -101,27 +97,23 @@ public class Arvore_AVL {
         return comparacoes;
     }
 
-    private void calcBalanceamento(NoArvore apontador) {
-       int balancLado1 = 1;
-       int balancLado2 = 1;
-       NoArvore apontador_bkp = apontador; //pra nao perder o nó inserido
-       while (apontador.getPai() != raiz){
-           apontador = apontador.getPai();
-           balancLado1++;
+    private int calcBalanceamento(NoArvore apontador) {
+       int balancLado1 = 0;
+       int balancLado2 = 0;
+       if (apontador.getfilhoE() != null){
+           balancLado1 += BalanceamentoRecursivo(apontador.getfilhoE());
        }
-       if (raiz.getfilhoE() == apontador){ //calcular lado direito e fazer a diferença
-           apontador = raiz.getfilhoD();
+       else{
+           balancLado1 = 0;
        }
-       else{ //calcular do lado esquerdo e fazer a diferença
-           apontador = raiz.getfilhoE();
-       }
-       if (apontador != null){
-           balancLado2 += BalanceamentoRecursivo(apontador);
+       if (apontador.getfilhoD() != null){
+           balancLado2 += BalanceamentoRecursivo(apontador.getfilhoD());
        }
        else{
            balancLado2 = 0;
        }
-       this.balanceamento = balancLado1-balancLado2;
+       int balanceamento = balancLado1-balancLado2; //esquerda - direita
+       return balanceamento;
     }
     private int BalanceamentoRecursivo(NoArvore apontador){
         if (apontador.getfilhoD() == null && apontador.getfilhoE() == null){ //no folha
@@ -135,26 +127,25 @@ public class Arvore_AVL {
             d = BalanceamentoRecursivo(apontador.getfilhoD());
         }
         if (e > d){ //tem que retornar o valor do maior dos lados
-            return e;
+            return e+1;
         }
         else{
-            return d;
+            return d+1;
         }
     }
 
-    private void RES(){ //quando o no inserido ta mais a direita possivel da arvore
+    private void RES(NoArvore apontador){ //quando o no inserido ta mais a direita possivel da arvore
+    }
+
+    private void RDS(NoArvore apontador){ //quando o no inserido ta mais a esquerda possivel da arvore
 
     }
 
-    private void RDS(){ //quando o no inserido ta mais a esquerda possivel da arvore
+    private void RED(NoArvore apontador){
 
     }
 
-    private void RED(){
-
-    }
-
-    private void RDD(){
+    private void RDD(NoArvore apontador){
 
     }
 }
